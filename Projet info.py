@@ -1,10 +1,44 @@
 import datetime
+import calendar
 import pandas as pd
 import numpy as np
 from matplotlib import pyplot as plt
 from statistics import mean,median,pvariance,pstdev
 from numpy import quantile
 data = pd.read_csv(r"C:\Users\odyss\Documents\Cours\Informatique\EIVP_KM.csv", sep = ';', header = None)
+
+
+def moyenne_liste(L):
+    somme = 0
+    for terme in L :
+        somme+=terme
+    return somme/len(L)
+
+def mediane_liste(L):
+    return sorted(L)[len(L)//2]
+
+def variance_liste(L):
+    m=moyenne_liste(L)
+    v=0
+    for k in range(0,len(L)):
+        v=v+(L[k]-m)**2
+    return(v/len(L))
+
+def cov(L1, L2):
+
+    if len(L1) != len(L2):
+        return
+
+    moyenne_L1 = moyenne_liste(L1)
+    moyenne_L2 = moyenne_liste(L2)
+    somme = 0
+
+    for i in range(0, len(L1)):
+        somme += ((L1[i] - moyenne_L1) * (L2[i] - moyenne_L2))
+
+    return somme/(len(L1)-1)
+
+
 
 #anomalies : bruit max sur le capteur 2, capteur 5 qui déconne pendant 2 jours
 
@@ -51,7 +85,7 @@ def moyenne(num_capteur, donnee):
     for terme in liste_capteur :
         data.append(float(terme[num_donnee]))
 
-    moyenne = mean(data)
+    moyenne = moyenne_liste(data)
     return moyenne
 
 
@@ -74,32 +108,9 @@ def mediane(num_capteur, donnee):
     for terme in liste_capteur :
         data.append(float(terme[num_donnee]))
 
-    mediane = median(data)
+    mediane = mediane_liste(data)
     return mediane
 
-def quartile(num_capteur, donnee):
-
-    if donnee == "noise" :
-        num_donnee = 0
-    elif donnee == "temp":
-        num_donnee = 1
-    elif donnee == "humidity":
-        num_donnee = 2
-    elif donnee == "lum" :
-        num_donnee = 3
-    elif donnee == "co2":
-        num_donnee = 4
-
-    liste_capteur = tableau[num_capteur-1]
-    data = []
-
-    for terme in liste_capteur :
-        data.append(float(terme[num_donnee]))
-
-    Q1 = quantile(data,0)
-    Q3 = quantile(data,1)
-
-    return Q1,Q3
 
 def variance(num_capteur, donnee):
 
@@ -120,7 +131,7 @@ def variance(num_capteur, donnee):
     for terme in liste_capteur :
         data.append(float(terme[num_donnee]))
 
-    variance = pvariance(data)
+    variance = variance_liste(data)
     return variance
 
 
@@ -143,7 +154,7 @@ def ecart_type(num_capteur, donnee):
     for terme in liste_capteur :
         data.append(float(terme[num_donnee]))
 
-    ecart_type= pstdev(data)
+    ecart_type= variance_liste(data)**0.5
     return ecart_type
 
 
@@ -229,9 +240,9 @@ def correlation(num_capteur,donneeA,donneeB):
 
 
 
-    covariance = np.cov(dataA,dataB)[0][1]
+    covariance = cov(dataA,dataB)
     correl = covariance/(ecartypeA*ecartypeB)
-    return correl
+    return round(correl,2)
 
 def all_moyenne(num):
     moyenne_temp = moyenne(num, "temp")
@@ -450,10 +461,10 @@ def trace(num_capteur,donnee,start_date,end_date):
 
     plt.plot(L_tps,data)
     plt.ylabel(donnee)
-    plt.xlabel('jours depuis le premier jour')
+    plt.xlabel('jours depuis le premier jour de mesure')
 
     ajoutx = (max(L_tps)-min(L_tps)) * 0.22
-    ajouty = (max(data) - min(data)) * 0.22
+    ajouty = (max(data) - min(data)) * 0.09
 
     plt.annotate(maxi,xy = (min(L_tps)+ajoutx,mini))
     plt.annotate('max =',xy = (min(L_tps),mini))
@@ -461,17 +472,17 @@ def trace(num_capteur,donnee,start_date,end_date):
     plt.annotate(mini,xy = (min(L_tps)+ajoutx ,mini + ajouty))
     plt.annotate('min =',xy = (min(L_tps),mini + ajouty))
 
-    plt.annotate(moyenne,xy = (min(L_tps)+ajoutx ,mini+1))
-    plt.annotate('moyenne =',xy = (min(L_tps),mini+1))
+    plt.annotate(moyenne,xy = (min(L_tps)+ajoutx ,mini+(ajouty*2)))
+    plt.annotate('moyenne =',xy = (min(L_tps),mini+(ajouty*2)))
 
-    plt.annotate(variance,xy = (min(L_tps)+ajoutx ,mini+1.5))
-    plt.annotate('variance =',xy = (min(L_tps),mini+1.5))
+    plt.annotate(variance,xy = (min(L_tps)+ajoutx ,mini+(ajouty*3)))
+    plt.annotate('variance =',xy = (min(L_tps),mini+(ajouty*3)))
 
-    plt.annotate(ecarttype,xy = (min(L_tps)+ajoutx ,mini+2))
-    plt.annotate('ecart type =',xy = (min(L_tps),mini+2))
+    plt.annotate(ecarttype,xy = (min(L_tps)+ajoutx ,mini+(ajouty*4)))
+    plt.annotate('ecart type =',xy = (min(L_tps),mini+(ajouty*4)))
 
-    plt.annotate(mediane,xy = (min(L_tps)+ajoutx ,mini+2.5))
-    plt.annotate('mediane =',xy = (min(L_tps),mini+2.5))
+    plt.annotate(mediane,xy = (min(L_tps)+ajoutx ,mini+(ajouty*5)))
+    plt.annotate('mediane =',xy = (min(L_tps),mini+(ajouty*5)))
 
 
     plt.show()
@@ -623,6 +634,10 @@ if choix == "3" :
     premiere_donnee = input()
     print("Choisissez une seconde donnée")
     seconde_donnee = input()
+    print ("Les données sont correlées à hauteur de : ", abs(correlation(choix_num,premiere_donnee,seconde_donnee))*100,"%")
+
+
+##
 
 
 
@@ -630,13 +645,515 @@ if choix == "3" :
 
 
 
+# -*- coding: utf-8 -*-
+
+import pandas as pd
+import datetime
+import calendar
+import matplotlib.pyplot as plt
+
+
+
+def courbe1(a=list):
+    plt.figure()
+    for i in a :
+        plt.plot(sent_at,data[i],'+')
+        plt.xlabel('sent_at')
+        plt.ylabel(ylabel[i])
+        plt.show
 
 
 
 
+def separation_capteur_uly(ID, noise, temp, humidity, lum, co2, sent_at):
+    tableau = []
+    i = 1
+    for k in range (1,7):
+        L = []
+        while int(ID[i]) == k and i < 7880 :
+            donnees = []
+            donnees.append(noise[i])
+            donnees.append(temp[i])
+            donnees.append(humidity[i])
+            donnees.append(lum[i])
+            donnees.append(co2[i])
+            donnees.append(sent_at[i])
+            L.append(donnees)
+            i = i + 1
+        tableau.append(L)
+    return tableau
+
+tableau = separation_capteur_uly(ID, noise, temp, humidity, lum, co2, sent_at)
 
 
 
+def heure_nouveau(List,c):
+
+
+    sent_at_nv,donnee_nv,nouvelle_heure,seconds_nv=[],[],[],[]
+    k,w,x,y,z=0,0,0,0,0
+    donnee_k0,donnee_k1,donnee_k2,donnee_k3,donnee_k4,donnee_k5=[],[],[],[],[],[]
+
+  #  assert len(List)<6,"Il est demandé plus de courbe qu'il n'en existe"
+ #   for index in List :
+  #      assert index==0 or index==1 or index==2 or index==3 or index==4,"Les numéros des courbes demandées n'existe pas"
+
+
+
+    for index in List:
+
+        sent_at_index,donnee_index,seconds_index=[],[],[]
+
+        for i in tableau[index]:
+            essai = datetime.datetime.strptime(i[5][:19], "%Y-%m-%d %H:%M:%S")
+            essai_tuple=essai.timetuple()
+            essai_seconds = calendar.timegm(essai_tuple)
+            seconds_index.append(essai_seconds)
+
+            sent_at_index.append(i[5])
+
+            donnee_index.append(float(i[c]))
+
+        sent_at_nv.append(sent_at_index)
+        donnee_nv.append(donnee_index)
+        seconds_nv.append(seconds_index)
+
+    print ('action1')
+
+    if len(List)==1:
+
+
+        plt.figure()
+        plt.plot(sent_at_nv[0],donnee_nv[0])
+        plt.show()
+
+
+
+    elif len(List)==2:
+
+        for i in range(len(sent_at_nv[0])-1):
+            while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-2):
+
+                nouvelle_heure.append(sent_at_nv[1][k])
+
+                Point= interpolation(i,k,0,1,donnee_nv,seconds_nv)
+
+                donnee_k0.append(Point)
+                donnee_k1.append(donnee_nv[1][k])
+
+                k+=1
+
+            nouvelle_heure.append(sent_at_nv[0][i])
+
+            Point=interpolation(k,i,1,0,donnee_nv,seconds_nv)
+
+            donnee_k1.append(Point)
+            donnee_k0.append(donnee_nv[0][i])
+
+
+        plt.figure()
+        plt.plot(nouvelle_heure,donnee_k0)
+        plt.plot(nouvelle_heure,donnee_k1)
+        plt.show()
+
+
+
+    elif len(List)==3:
+
+        for i in range(len(sent_at_nv[0])-1):
+            while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-2):
+                while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
+
+                    nouvelle_heure.append(sent_at_nv[2][w])
+
+                    Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
+
+                    Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
+
+                    donnee_k0.append(Point0)
+                    donnee_k1.append(Point1)
+                    donnee_k2.append(donnee_nv[2][w])
+
+                    w+=1
+
+                nouvelle_heure.append(sent_at_nv[1][k])
+
+                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
+
+                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
+
+                donnee_k0.append(Point0)
+                donnee_k1.append(donnee_nv[1][k])
+                donnee_k2.append(Point2)
+
+                k+=1
+
+            nouvelle_heure.append(sent_at_nv[0][i])
+
+            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
+
+            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
+
+            donnee_k0.append(donnee_nv[0][i])
+            donnee_k1.append(Point1)
+            donnee_k2.append(Point2)
+
+
+
+        plt.figure()
+        plt.plot(nouvelle_heure,donnee_k0)
+        plt.plot(nouvelle_heure,donnee_k1)
+        plt.plot(nouvelle_heure,donnee_k2)
+        plt.show()
+
+
+    elif len(List)==4 :
+
+       for i in range(len(sent_at_nv[0])-1):
+           while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-1):
+               while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
+
+                   while seconds_nv[2][w]>=seconds_nv[3][x] and x<(len(sent_at_nv[3])-1):
+
+                       nouvelle_heure.append(sent_at_nv[3][x])
+
+                       Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
+
+                       Point1=interpolation(k,x,1,3,donnee_nv,seconds_nv)
+
+                       Point2=interpolation(w,x,2,3,donnee_nv,seconds_nv)
+
+                       donnee_k0.append(Point0)
+                       donnee_k1.append(Point1)
+                       donnee_k2.append(Point2)
+                       donnee_k3.append(donnee_nv[3][x])
+
+                   nouvelle_heure.append(sent_at_nv[2][w])
+
+                   Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
+
+                   Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
+
+                   Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
+
+                   donnee_k0.append(Point0)
+                   donnee_k1.append(Point1)
+                   donnee_k2.append(donnee_nv[2][w])
+                   donnee_k3.append(Point3)
+
+                   w+=1
+
+               nouvelle_heure.append(sent_at_nv[1][k])
+
+               Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
+
+               Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
+
+               Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
+
+               donnee_k0.append(Point0)
+               donnee_k1.append(donnee_nv[1][k])
+               donnee_k2.append(Point2)
+               donnee_k3.append(Point3)
+
+               k+=1
+
+           nouvelle_heure.append(sent_at_nv[0][i])
+
+           Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
+
+           Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
+
+           Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
+
+           donnee_k0.append(donnee_nv[0][i])
+           donnee_k1.append(Point1)
+           donnee_k2.append(Point2)
+           donnee_k3.append(Point3)
+
+
+       plt.figure()
+       plt.plot(nouvelle_heure,donnee_k0)
+       plt.plot(nouvelle_heure,donnee_k1)
+       plt.plot(nouvelle_heure,donnee_k2)
+       plt.plot(nouvelle_heure,donnee_k3)
+       plt.show()
+
+
+    elif len(List)==5:
+
+        for i in range(len(sent_at_nv[0])-1):
+            while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-1):
+                while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
+                     while seconds_nv[2][w]>=seconds_nv[3][x] and x<(len(sent_at_nv[3])-1):
+                         while seconds_nv[3][x]>=seconds_nv[4][y] and y<(len(sent_at_nv[4])-1):
+
+                             nouvelle_heure.append(sent_at_nv[4][y])
+
+                             Point0=interpolation(i,y,0,4,donnee_nv,seconds_nv)
+
+                             Point1=interpolation(k,y,1,4,donnee_nv,seconds_nv)
+
+                             Point2=interpolation(w,y,2,4,donnee_nv,seconds_nv)
+
+                             Point3=interpolation(x,y,3,4,donnee_nv,seconds_nv)
+
+                             donnee_k0.append(Point0)
+                             donnee_k1.append(Point1)
+                             donnee_k2.append(Point2)
+                             donnee_k3.append(Point3)
+                             donnee_k4.append(donnee_nv[4][y])
+
+                         nouvelle_heure.append(sent_at_nv[3][x])
+
+                         Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
+
+                         Point2=interpolation(k,x,1,3,donnee_nv,seconds_nv)
+
+                         Point3=interpolation(w,x,2,3,donnee_nv,seconds_nv)
+
+                         Point4=interpolation(y,x,4,3,donnee_nv,seconds_nv)
+
+                         donnee_k0.append(Point0)
+                         donnee_k1.append(Point1)
+                         donnee_k2.append(Point2)
+                         donnee_k3.append(donnee_nv[3][x])
+                         donnee_k4.append(Point4)
+
+                     nouvelle_heure.append(sent_at_nv[2][w])
+
+                     Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
+
+                     Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
+
+                     Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
+
+                     Point4=interpolation(y,w,4,2,donnee_nv,seconds_nv)
+
+                     donnee_k0.append(Point0)
+                     donnee_k1.append(Point1)
+                     donnee_k2.append(donnee_nv[2][w])
+                     donnee_k3.append(Point3)
+                     donnee_k4.append(Point4)
+
+                     w+=1
+
+                nouvelle_heure.append(sent_at_nv[1][k])
+
+                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
+
+                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
+
+                Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
+
+                Point4=interpolation(y,k,4,1,donnee_nv,seconds_nv)
+
+                donnee_k0.append(Point0)
+                donnee_k1.append(donnee_nv[1][k])
+                donnee_k2.append(Point2)
+                donnee_k3.append(Point3)
+                donnee_k4.append(Point4)
+
+                k+=1
+
+            nouvelle_heure.append(sent_at_nv[0][i])
+
+            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
+
+            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
+
+            Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
+
+            Point4=interpolation(y,i,4,0,donnee_nv,seconds_nv)
+
+            donnee_k0.append(donnee_nv[0][i])
+            donnee_k1.append(Point1)
+            donnee_k2.append(Point2)
+            donnee_k3.append(Point3)
+            donnee_k4.append(Point4)
+
+
+        plt.figure()
+        plt.plot(nouvelle_heure,donnee_k0)
+        plt.plot(nouvelle_heure,donnee_k1)
+        plt.plot(nouvelle_heure,donnee_k2)
+        plt.plot(nouvelle_heure,donnee_k3)
+        plt.plot(nouvelle_heure,donnee_k4)
+        plt.show()
+
+
+    else:
+
+
+        for i in range(len(sent_at_nv[0])-1):
+            while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-1):
+                while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
+                     while seconds_nv[2][w]>=seconds_nv[3][x] and x<(len(sent_at_nv[3])-1):
+                         while seconds_nv[3][x]>=seconds_nv[4][y] and y<(len(sent_at_nv[4])-1):
+                             while seconds_nv[4][y]>=seconds_nv[5][z] and z<(len(sent_at_nv[5])-1):
+
+                                 nouvelle_heure.append(sent_at_nv[5][z])
+
+                                 Point0=interpolation(i,z,0,5,donnee_nv,seconds_nv)
+
+                                 Point1=interpolation(k,z,1,5,donnee_nv,seconds_nv)
+
+                                 Point2=interpolation(w,z,2,5,donnee_nv,seconds_nv)
+
+                                 Point3=interpolation(x,z,3,5,donnee_nv,seconds_nv)
+
+                                 Point4=interpolation(y,z,4,5,donnee_nv,seconds_nv)
+
+                                 donnee_k0.append(Point0)
+                                 donnee_k1.append(Point1)
+                                 donnee_k2.append(Point2)
+                                 donnee_k3.append(Point3)
+                                 donnee_k4.append(Point4)
+                                 donnee_k5.append(donnee_nv[5][z])
+
+                             nouvelle_heure.append(sent_at_nv[4][y])
+
+                             Point0=interpolation(i,y,0,4,donnee_nv,seconds_nv)
+
+                             Point1=interpolation(k,y,1,4,donnee_nv,seconds_nv)
+
+                             Point2=interpolation(w,y,2,4,donnee_nv,seconds_nv)
+
+                             Point3=interpolation(x,y,3,4,donnee_nv,seconds_nv)
+
+                             Point5=interpolation(z,y,5,4,donnee_nv,seconds_nv)
+
+                             donnee_k0.append(Point0)
+                             donnee_k1.append(Point1)
+                             donnee_k2.append(Point2)
+                             donnee_k3.append(Point3)
+                             donnee_k4.append(donnee_nv[4][y])
+                             donnee_k5.append(Point5)
+
+                         nouvelle_heure.append(sent_at_nv[3][x])
+
+                         Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
+
+                         Point1=interpolation(k,x,1,3,donnee_nv,seconds_nv)
+
+                         Point2=interpolation(w,x,2,3,donnee_nv,seconds_nv)
+
+                         Point3=interpolation(y,x,4,3,donnee_nv,seconds_nv)
+
+                         Point5=interpolation(z,y,5,3,donnee_nv,seconds_nv)
+
+                         donnee_k0.append(Point0)
+                         donnee_k1.append(Point1)
+                         donnee_k2.append(Point2)
+                         donnee_k3.append(donnee_nv[3][x])
+                         donnee_k4.append(Point4)
+                         donnee_k5.append(Point5)
+
+                     nouvelle_heure.append(sent_at_nv[2][w])
+
+                     Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
+
+                     Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
+
+                     Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
+
+                     Point4=interpolation(y,w,4,2,donnee_nv,seconds_nv)
+
+                     Point5=interpolation(z,w,5,2,donnee_nv,seconds_nv)
+
+                     donnee_k0.append(Point0)
+                     donnee_k1.append(Point1)
+                     donnee_k2.append(donnee_nv[2][w])
+                     donnee_k3.append(Point3)
+                     donnee_k4.append(Point4)
+                     donnee_k5.append(Point5)
+
+                     w+=1
+
+                nouvelle_heure.append(sent_at_nv[1][k])
+
+                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
+
+                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
+
+                Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
+
+                Point4=interpolation(y,k,4,1,donnee_nv,seconds_nv)
+
+                Point5=interpolation(z,k,5,1,donnee_nv,seconds_nv)
+
+                donnee_k0.append(Point0)
+                donnee_k1.append(donnee_nv[1][k])
+                donnee_k2.append(Point2)
+                donnee_k3.append(Point3)
+                donnee_k4.append(Point4)
+                donnee_k5.append(Point5)
+
+                k+=1
+
+            nouvelle_heure.append(sent_at_nv[0][i])
+
+            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
+
+            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
+
+            Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
+
+            Point4=interpolation(y,i,4,0,donnee_nv,seconds_nv)
+
+            Point5=interpolation(z,i,5,0,donnee_nv,seconds_nv)
+
+            donnee_k0.append(donnee_nv[0][i])
+            donnee_k1.append(Point1)
+            donnee_k2.append(Point2)
+            donnee_k3.append(Point3)
+            donnee_k4.append(Point4)
+            donnee_k5.append(Point5)
+
+
+        plt.figure()
+        plt.plot(nouvelle_heure,donnee_k0)
+        plt.plot(nouvelle_heure,donnee_k1)
+        plt.plot(nouvelle_heure,donnee_k2)
+        plt.plot(nouvelle_heure,donnee_k3)
+        plt.plot(nouvelle_heure,donnee_k4)
+        plt.plot(nouvelle_heure,donnee_k5)
+        plt.show()
+
+
+def interpolation(i,k,Lnv,Lbs,donnee_nv,seconds_nv):
+
+    if i==0 or i==len(donnee_nv[Lnv])-2:
+        Point=donnee_nv[Lnv][i]
+
+    else:
+        CoefDir= (donnee_nv[Lnv][i+1]-donnee_nv[Lnv][i])/(seconds_nv[Lnv][i+1]-seconds_nv[Lnv][i])
+        B=donnee_nv[Lnv][i]-CoefDir*seconds_nv[Lnv][i]
+        Point=CoefDir*seconds_nv[Lbs][k]+B
+
+    return(Point)
+
+
+
+# possibilité de simplification:
+
+
+# "i,j,k=0,0,0
+# date1,date2,date3,=sent_at_nv[0][0],sent_at_nv[1][0],sent_at_nv[2][0]
+# continuer=True
+# while i<len(sent_at_nv[0]) or :
+#     if date1<date2 and date1<date3:
+#         nouvelle_date.append(date1)
+#         i+=1
+#         date1=sent_at_nv[0][i]
+#     elif date2<date3 and date2<date1:
+#         nouvelle_date.append(date2)
+#         j+=1
+#         date2=sent_at_nv[1][j]
+#     else :
+#         nouvelle_date.append(date3)
+#         k+=1
+#         date3=sent_at_nv[2][k]"
 
 
 
