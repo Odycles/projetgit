@@ -374,14 +374,6 @@ def trace(num_capteur,donnee,start_date,end_date):
     data = []
     L_tps = []
 
-    for capt in tableau :
-        for point in capt :
-            T = float(point[1])
-            phi = float(point[2])
-            humid_ex = humidex(T,phi)
-            point.append(humid_ex)
-
-
     if donnee == "noise" :
         num_donnee = 0
     elif donnee == "temp":
@@ -392,99 +384,97 @@ def trace(num_capteur,donnee,start_date,end_date):
         num_donnee = 3
     elif donnee == "co2":
         num_donnee = 4
-    elif donnee == "humidex":
-        num_donnee = 6
 
-    if start_date != None and end_date != None :
-
-        for terme in liste_capteur :
-                tps.append(terme[5])
-                data.append(float(terme[num_donnee]))
-
-        tps = def_time(tps)
+    for terme in liste_capteur :
+            tps.append(terme[5])
+            data.append(float(terme[num_donnee]))
+    tps = def_time(tps)
+    L_tps = []
 
 
-        annee = start_date[0:4]
-        mois = start_date [5:7]
-        if mois[0] == 0 :
-            mois.pop(0)
-        jour = start_date[8:10]
-        if jour[0] == 0 :
-            jour.pop(0)
-        annee,mois,jour,heure,minute,seconde = int(annee),int(mois),int(jour),0,0,0
-        t1 = datetime.datetime(annee,mois,jour,heure,minute,seconde)
+    annee = start_date[0:4]
+    mois = start_date [5:7]
+    if mois[0] == 0 :
+        mois.pop(0)
+    jour = start_date[8:10]
+    if jour[0] == 0 :
+        jour.pop(0)
+    annee,mois,jour,heure,minute,seconde = int(annee),int(mois),int(jour),0,0,0
+    t1 = datetime.datetime(annee,mois,jour,heure,minute,seconde)
 
-        annee = end_date[0:4]
-        mois = end_date [5:7]
-        if mois[0] == 0 :
-            mois.pop(0)
-        jour = end_date[8:10]
-        if jour[0] == 0 :
-            jour.pop(0)
-        annee,mois,jour,heure,minute,seconde = int(annee),int(mois),int(jour),0,0,0
-        t2 = datetime.datetime(annee,mois,jour,heure,minute,seconde)
+    annee = end_date[0:4]
+    mois = end_date [5:7]
 
+    if mois[0] == 0 :
+        mois.pop(0)
+    jour = end_date[8:10]
 
-        t=tps[k]
-        while t1 > t :
-            print(k)
-            t = tps[k]
-            k+=1
-        ite_start_date = k
-        while t2 > t :
-            t = tps[k]
-            k+=1
-        ite_end_date = k
+    if jour[0] == 0 :
+        jour.pop(0)
+    annee,mois,jour,heure,minute,seconde = int(annee),int(mois),int(jour),0,0,0
+    t2 = datetime.datetime(annee,mois,jour,heure,minute,seconde)
 
-        tps_origin = tps[0]
+    t=tps[k]
+    while t1 > t :
+        t = tps[k]
+        k+=1
+    ite_start_date = k
+    while t2 > t :
+        t = tps[k]
+        k+=1
+    ite_end_date = k
 
-        tps = tps[ite_start_date:ite_end_date]
+    tps_origin = tps[0]
 
-        for terme in tps :
-            delta_origin = tps[0]-tps_origin
-            delta = terme - tps[0]
-            seconde = delta.total_seconds() + delta_origin.total_seconds()
-            jour = (seconde /3600) /24
-            L_tps.append(jour)
-        data = []
-        for terme in liste_capteur[ite_start_date:ite_end_date] :
-                data.append(float(terme[num_donnee]))
+    tps = tps[ite_start_date:ite_end_date]
+
+    for terme in tps :
+        delta_origin = tps[0]-tps_origin
+        delta = terme - tps[0]
+        seconde = delta.total_seconds() + delta_origin.total_seconds()
+        jour = (seconde /3600) /24
+        L_tps.append(jour)
+
+    data = []
+    for terme in liste_capteur[ite_start_date:ite_end_date] :
+            data.append(float(terme[num_donnee]))
 
 
 
-        maxi = max(data)
-        mini = min(data)
-        moyenne = round(mean(data),2)
-        variance = round(pvariance(data),2)
-        ecarttype = round(pstdev(data),2)
-        mediane = median(data)
+    maxi = max(data)
+    mini = min(data)
+    moyenne = round(mean(data),2)
+    variance = round(pvariance(data),2)
+    ecarttype = round(pstdev(data),2)
+    mediane = median(data)
 
-        plt.plot(L_tps,data)
-        plt.ylabel(donnee)
-        plt.xlabel('jours depuis le premier jour')
+    plt.plot(L_tps,data)
+    plt.ylabel(donnee)
+    plt.xlabel('jours depuis le premier jour')
 
-        ajoutx = (max(L_tps)-min(L_tps))*0.22
+    ajoutx = (max(L_tps)-min(L_tps)) * 0.22
+    ajouty = (max(data) - min(data)) * 0.22
 
-        plt.annotate(maxi,xy = (min(L_tps)+ajoutx,mini))
-        plt.annotate('max =',xy = (min(L_tps),mini))
+    plt.annotate(maxi,xy = (min(L_tps)+ajoutx,mini))
+    plt.annotate('max =',xy = (min(L_tps),mini))
 
-        plt.annotate(mini,xy = (min(L_tps)+ajoutx ,mini+0.5))
-        plt.annotate('min =',xy = (min(L_tps),mini+0.5))
+    plt.annotate(mini,xy = (min(L_tps)+ajoutx ,mini + ajouty))
+    plt.annotate('min =',xy = (min(L_tps),mini + ajouty))
 
-        plt.annotate(moyenne,xy = (min(L_tps)+ajoutx ,mini+1))
-        plt.annotate('moyenne =',xy = (min(L_tps),mini+1))
+    plt.annotate(moyenne,xy = (min(L_tps)+ajoutx ,mini+1))
+    plt.annotate('moyenne =',xy = (min(L_tps),mini+1))
 
-        plt.annotate(variance,xy = (min(L_tps)+ajoutx ,mini+1.5))
-        plt.annotate('variance =',xy = (min(L_tps),mini+1.5))
+    plt.annotate(variance,xy = (min(L_tps)+ajoutx ,mini+1.5))
+    plt.annotate('variance =',xy = (min(L_tps),mini+1.5))
 
-        plt.annotate(ecarttype,xy = (min(L_tps)+ajoutx ,mini+2))
-        plt.annotate('ecart type =',xy = (min(L_tps),mini+2))
+    plt.annotate(ecarttype,xy = (min(L_tps)+ajoutx ,mini+2))
+    plt.annotate('ecart type =',xy = (min(L_tps),mini+2))
 
-        plt.annotate(mediane,xy = (min(L_tps)+ajoutx ,mini+2.5))
-        plt.annotate('mediane =',xy = (min(L_tps),mini+2.5))
+    plt.annotate(mediane,xy = (min(L_tps)+ajoutx ,mini+2.5))
+    plt.annotate('mediane =',xy = (min(L_tps),mini+2.5))
 
 
-        plt.show()
+    plt.show()
 
 
 
@@ -494,7 +484,7 @@ def trace(num_capteur,donnee,start_date,end_date):
 
 
 
-    else :
+    '''else : test
         for terme in liste_capteur :
                 tps.append(terme[5])
                 data.append(float(terme[num_donnee]))
@@ -537,7 +527,7 @@ def trace(num_capteur,donnee,start_date,end_date):
 
         plt.annotate(mediane,xy = (min(L_tps)+ajoutx ,mini+2.5))
         plt.annotate('mediane =',xy = (min(L_tps),mini+2.5))
-        plt.show()
+        plt.show()'''
 
 
 
@@ -603,35 +593,38 @@ def detect_anomalie(num_capteur,donnee):
 ##
 
 print ("Bonjour")
-print ("Vous pouvez soit : 1. tracer une courbe   2. tracer une courbe entre deux dates  3.detecter les anomalies")
-print ("donner le numéro de votre choix")
+print ("Vous pouvez soit : \n 1. Tracer une courbe entre deux dates \n 2. Detecter les anomalies \n 3. Visualiser la corrélation entre deux variables")
+print ("Donnez le numéro de votre choix")
 choix = input()
 
 if choix == "1" :
-    print("choisissez une donnée à tracer : temp, humidity, co2, noise, lum, humidex")
+    print("Choisissez une donnée à tracer : temp, humidity, co2, noise, lum, humidex")
     choix_donnee = input()
-    print("choisissez un capteur : 1, 2, 3, 4, 5")
-    choix_num = input()
-    trace(5,choix_donnee,None,None)
-
-if choix == "2" :
-    print("choisissez une donnée à tracer : temp, humidity, co2, noise, lum, humidex")
-    choix_donnee = input()
-    print("choisissez un capteur : 1, 2, 3, 4, 5")
+    print("Choisissez un capteur : 1, 2, 3, 4, 5")
     choix_num = int(input())
-    print("choisissez une date de début sous la forme YYYY-MM-DD entre le 2019-08-11 et le 2019-08-25")
+    print("Choisissez une date de début sous la forme YYYY-MM-DD entre le 2019-08-11 et le 2019-08-25")
     date_debut = str(input())
-    print("choisissez une date de fin sous la forme YYYY-MM-DD entre le 2019-08-11 et le 2019-08-25")
+    print("Choisissez une date de fin sous la forme YYYY-MM-DD entre le 2019-08-11 et le 2019-08-25")
     date_fin = str(input())
     trace(choix_num,choix_donnee,date_debut,date_fin)
 
-if choix == "3" :
-    print("les anomalies détectées vont être tracées en rouge")
-    print("choisissez un capteur a diagnostiquer : 1, 2, 3, 4, 5")
+if choix == "2" :
+    print("Les anomalies détectées vont être tracées en rouge")
+    print("Choisissez un capteur a diagnostiquer : 1, 2, 3, 4, 5")
     choix_num = int(input())
-    print("choisissez une donnée à tracer : temp, humidity, co2, noise, lum, humidex")
+    print("Choisissez une donnée à tracer : temp, humidity, co2, noise, lum")
     choix_donnee = input()
     detect_anomalie(choix_num,choix_donnee)
+
+if choix == "3" :
+    print("Choisissez un capteur sur lequel visualiser la corrélation")
+    choix_num = int(input())
+    print("Choisissez une première donnée")
+    premiere_donnee = input()
+    print("Choisissez une seconde donnée")
+    seconde_donnee = input()
+
+
 
 
 
