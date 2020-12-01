@@ -647,19 +647,16 @@ def heure_nouveau(List1,a):
 
                 nouvelle_heure.append(sent_at_nv[1][k])
 
-                Point= interpolation(i,k,0,1,donnee_nv,seconds_nv)
-
-                donnee_k0.append(Point)
+                donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
 
-            Point=interpolation(k,i,1,0,donnee_nv,seconds_nv)
 
-            donnee_k1.append(Point)
-            donnee_k0.append(donnee_nv[0][i])
+            donnee_k1.append(donnee_nv[1][k])
+            donnee_k0.append()
 
         d='capteur'+str(List1[0])
         d=str(d)
@@ -685,38 +682,26 @@ def heure_nouveau(List1,a):
                 while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
 
                     nouvelle_heure.append(sent_at_nv[2][w])
-
-                    Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
-
-                    Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
-
-                    donnee_k0.append(Point0)
-                    donnee_k1.append(Point1)
+                    
+                    donnee_k0.append(donnee_nv[0][i])
+                    donnee_k1.append(donnee_nv[1][k])
                     donnee_k2.append(donnee_nv[2][w])
 
                     w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
 
-                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
-
-                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
-
-                donnee_k0.append(Point0)
+                donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
-                donnee_k2.append(Point2)
+                donnee_k2.append(donnee_nv[2][w])
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
 
-            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
-
-            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
-
             donnee_k0.append(donnee_nv[0][i])
-            donnee_k1.append(Point1)
-            donnee_k2.append(Point2)
+            donnee_k1.append(donnee_nv[1][k])
+            donnee_k2.append(donnee_nv[2][w])
 
 
         for i in range(len(seconds_nv)-1):
@@ -755,62 +740,38 @@ def heure_nouveau(List1,a):
                    while seconds_nv[2][w]>=seconds_nv[3][x] and x<(len(sent_at_nv[3])-1):
 
                        nouvelle_heure.append(sent_at_nv[3][x])
-
-                       Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
-
-                       Point1=interpolation(k,x,1,3,donnee_nv,seconds_nv)
-
-                       Point2=interpolation(w,x,2,3,donnee_nv,seconds_nv)
-
-                       donnee_k0.append(Point0)
-                       donnee_k1.append(Point1)
-                       donnee_k2.append(Point2)
+                    
+                       donnee_k0.append(donnee_nv[0][i])
+                       donnee_k1.append(donnee_nv[1][k])
+                       donnee_k2.append(donnee_nv[2][w])
                        donnee_k3.append(donnee_nv[3][x])
 
                        x+=1
 
                    nouvelle_heure.append(sent_at_nv[2][w])
-
-                   Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
-
-                   Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
-
-                   Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
-
-                   donnee_k0.append(Point0)
-                   donnee_k1.append(Point1)
+                
+                   donnee_k0.append(donnee_nv[0][i])
+                   donnee_k1.append(donnee_nv[1][k])
                    donnee_k2.append(donnee_nv[2][w])
-                   donnee_k3.append(Point3)
+                   donnee_k3.append(donnee_nv[3][x])
 
                    w+=1
 
                nouvelle_heure.append(sent_at_nv[1][k])
 
-               Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
-
-               Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
-
-               Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
-
-               donnee_k0.append(Point0)
+               donnee_k0.append(donnee_nv[0][i])
                donnee_k1.append(donnee_nv[1][k])
-               donnee_k2.append(Point2)
-               donnee_k3.append(Point3)
+               donnee_k2.append(donnee_nv[2][w])
+               donnee_k3.append(donnee_nv[3][x])
 
                k+=1
 
            nouvelle_heure.append(sent_at_nv[0][i])
-
-           Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
-
-           Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
-
-           Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
-
+        
            donnee_k0.append(donnee_nv[0][i])
-           donnee_k1.append(Point1)
-           donnee_k2.append(Point2)
-           donnee_k3.append(Point3)
+           donnee_k1.append(donnee_nv[1][k])
+           donnee_k2.append(donnee_nv[2][w])
+           donnee_k3.append(donnee_nv[3][x])
 
 
 
@@ -845,92 +806,52 @@ def heure_nouveau(List1,a):
                          while seconds_nv[3][x]>=seconds_nv[4][y] and y<(len(sent_at_nv[4])-1):
 
                              nouvelle_heure.append(sent_at_nv[4][y])
-
-                             Point0=interpolation(i,y,0,4,donnee_nv,seconds_nv)
-
-                             Point1=interpolation(k,y,1,4,donnee_nv,seconds_nv)
-
-                             Point2=interpolation(w,y,2,4,donnee_nv,seconds_nv)
-
-                             Point3=interpolation(x,y,3,4,donnee_nv,seconds_nv)
-
-                             donnee_k0.append(Point0)
-                             donnee_k1.append(Point1)
-                             donnee_k2.append(Point2)
-                             donnee_k3.append(Point3)
+                             
+                             donnee_k0.append(donnee_nv[0][i])
+                             donnee_k1.append(donnee_nv[1][k])
+                             donnee_k2.append(donnee_nv[2][w])
+                             donnee_k3.append(donnee_nv[3][x])
                              donnee_k4.append(donnee_nv[4][y])
 
                              y+=1
 
                          nouvelle_heure.append(sent_at_nv[3][x])
-
-                         Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
-
-                         Point1=interpolation(k,x,1,3,donnee_nv,seconds_nv)
-
-                         Point2=interpolation(w,x,2,3,donnee_nv,seconds_nv)
-
-                         Point4=interpolation(y,x,4,3,donnee_nv,seconds_nv)
-
-                         donnee_k0.append(Point0)
-                         donnee_k1.append(Point1)
-                         donnee_k2.append(Point2)
+                         
+                         donnee_k0.append(donnee_nv[0][i])
+                         donnee_k1.append(donnee_nv[1][k])
+                         donnee_k2.append(donnee_nv[2][w])
                          donnee_k3.append(donnee_nv[3][x])
-                         donnee_k4.append(Point4)
+                         donnee_k4.append(donnee_nv[4][y])
 
                          x+=1
 
                      nouvelle_heure.append(sent_at_nv[2][w])
 
-                     Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
-
-                     Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
-
-                     Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
-
-                     Point4=interpolation(y,w,4,2,donnee_nv,seconds_nv)
-
-                     donnee_k0.append(Point0)
-                     donnee_k1.append(Point1)
+                     donnee_k0.append(donnee_nv[0][i])
+                     donnee_k1.append(donnee_nv[1][k])
                      donnee_k2.append(donnee_nv[2][w])
-                     donnee_k3.append(Point3)
-                     donnee_k4.append(Point4)
+                     donnee_k3.append(donnee_nv[3][x])
+                     donnee_k4.append(donnee_nv[4][y])
 
                      w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
 
-                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
-
-                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
-
-                Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
-
-                Point4=interpolation(y,k,4,1,donnee_nv,seconds_nv)
-
-                donnee_k0.append(Point0)
+                donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
-                donnee_k2.append(Point2)
-                donnee_k3.append(Point3)
-                donnee_k4.append(Point4)
+                donnee_k2.append(donnee_nv[2][w])
+                donnee_k3.append(donnee_nv[3][x])
+                donnee_k4.append(donnee_nv[4][y])
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
 
-            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
-
-            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
-
-            Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
-
-            Point4=interpolation(y,i,4,0,donnee_nv,seconds_nv)
-
             donnee_k0.append(donnee_nv[0][i])
-            donnee_k1.append(Point1)
-            donnee_k2.append(Point2)
-            donnee_k3.append(Point3)
-            donnee_k4.append(Point4)
+            donnee_k1.append(donnee_nv[1][k])
+            donnee_k2.append(donnee_nv[2][w])
+            donnee_k3.append(donnee_nv[3][x])
+            donnee_k4.append(donnee_nv[4][y])
 
 
         d='capteur'+str(List1[0])
@@ -970,127 +891,67 @@ def heure_nouveau(List1,a):
 
                                  nouvelle_heure.append(sent_at_nv[5][z])
 
-                                 Point0=interpolation(i,z,0,5,donnee_nv,seconds_nv)
-
-                                 Point1=interpolation(k,z,1,5,donnee_nv,seconds_nv)
-
-                                 Point2=interpolation(w,z,2,5,donnee_nv,seconds_nv)
-
-                                 Point3=interpolation(x,z,3,5,donnee_nv,seconds_nv)
-
-                                 Point4=interpolation(y,z,4,5,donnee_nv,seconds_nv)
-
-                                 donnee_k0.append(Point0)
-                                 donnee_k1.append(Point1)
-                                 donnee_k2.append(Point2)
-                                 donnee_k3.append(Point3)
-                                 donnee_k4.append(Point4)
+                                 donnee_k0.append(donnee_nv[0][i])
+                                 donnee_k1.append(donnee_nv[1][k])
+                                 donnee_k2.append(donnee_nv[2][w])
+                                 donnee_k3.append(donnee_nv[3][x])
+                                 donnee_k4.append(donnee_nv[4][y])
                                  donnee_k5.append(donnee_nv[5][z])
 
                                  z+=1
 
                              nouvelle_heure.append(sent_at_nv[4][y])
 
-                             Point0=interpolation(i,y,0,4,donnee_nv,seconds_nv)
-
-                             Point1=interpolation(k,y,1,4,donnee_nv,seconds_nv)
-
-                             Point2=interpolation(w,y,2,4,donnee_nv,seconds_nv)
-
-                             Point3=interpolation(x,y,3,4,donnee_nv,seconds_nv)
-
-                             Point5=interpolation(z,y,5,4,donnee_nv,seconds_nv)
-
-                             donnee_k0.append(Point0)
-                             donnee_k1.append(Point1)
-                             donnee_k2.append(Point2)
-                             donnee_k3.append(Point3)
+                             donnee_k0.append(donnee_nv[0][i])
+                             donnee_k1.append(donnee_nv[1][k])
+                             donnee_k2.append(donnee_nv[2][w])
+                             donnee_k3.append(donnee_nv[3][x])
                              donnee_k4.append(donnee_nv[4][y])
-                             donnee_k5.append(Point5)
+                             donnee_k5.append(donnee_nv[5][z])
 
                              y+=1
 
                          nouvelle_heure.append(sent_at_nv[3][x])
 
-                         Point0=interpolation(i,x,0,3,donnee_nv,seconds_nv)
-
-                         Point1=interpolation(k,x,1,3,donnee_nv,seconds_nv)
-
-                         Point2=interpolation(w,x,2,3,donnee_nv,seconds_nv)
-
-                         Point4=interpolation(y,x,4,3,donnee_nv,seconds_nv)
-
-                         Point5=interpolation(z,x,5,3,donnee_nv,seconds_nv)
-
-                         donnee_k0.append(Point0)
-                         donnee_k1.append(Point1)
-                         donnee_k2.append(Point2)
+                         donnee_k0.append(donnee_nv[0][i])
+                         donnee_k1.append(donnee_nv[1][k])
+                         donnee_k2.append(donnee_nv[2][w])
                          donnee_k3.append(donnee_nv[3][x])
-                         donnee_k4.append(Point4)
-                         donnee_k5.append(Point5)
+                         donnee_k4.append(donnee_nv[4][y])
+                         donnee_k5.append(donnee_nv[5][z])
 
                          x+=1
 
                      nouvelle_heure.append(sent_at_nv[2][w])
 
-                     Point0=interpolation(i,w,0,2,donnee_nv,seconds_nv)
-
-                     Point1=interpolation(k,w,1,2,donnee_nv,seconds_nv)
-
-                     Point3=interpolation(x,w,3,2,donnee_nv,seconds_nv)
-
-                     Point4=interpolation(y,w,4,2,donnee_nv,seconds_nv)
-
-                     Point5=interpolation(z,w,5,2,donnee_nv,seconds_nv)
-
-                     donnee_k0.append(Point0)
-                     donnee_k1.append(Point1)
+                     donnee_k0.append(donnee_nv[0][i])
+                     donnee_k1.append(donnee_nv[1][k])
                      donnee_k2.append(donnee_nv[2][w])
-                     donnee_k3.append(Point3)
-                     donnee_k4.append(Point4)
-                     donnee_k5.append(Point5)
+                     donnee_k3.append(donnee_nv[3][x])
+                     donnee_k4.append(donnee_nv[4][y])
+                     donnee_k5.append(donnee_nv[5][z])
 
                      w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
 
-                Point0=interpolation(i,k,0,1,donnee_nv,seconds_nv)
-
-                Point2=interpolation(w,k,2,1,donnee_nv,seconds_nv)
-
-                Point3=interpolation(x,k,3,1,donnee_nv,seconds_nv)
-
-                Point4=interpolation(y,k,4,1,donnee_nv,seconds_nv)
-
-                Point5=interpolation(z,k,5,1,donnee_nv,seconds_nv)
-
-                donnee_k0.append(Point0)
+                donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
-                donnee_k2.append(Point2)
-                donnee_k3.append(Point3)
-                donnee_k4.append(Point4)
-                donnee_k5.append(Point5)
+                donnee_k2.append(donnee_nv[2][w])
+                donnee_k3.append(donnee_nv[3][x])
+                donnee_k4.append(donnee_nv[4][y])
+                donnee_k5.append(donnee_nv[5][z])
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
 
-            Point1=interpolation(k,i,1,0,donnee_nv,seconds_nv)
-
-            Point2=interpolation(w,i,2,0,donnee_nv,seconds_nv)
-
-            Point3=interpolation(x,i,3,0,donnee_nv,seconds_nv)
-
-            Point4=interpolation(y,i,4,0,donnee_nv,seconds_nv)
-
-            Point5=interpolation(z,i,5,0,donnee_nv,seconds_nv)
-
             donnee_k0.append(donnee_nv[0][i])
-            donnee_k1.append(Point1)
-            donnee_k2.append(Point2)
-            donnee_k3.append(Point3)
-            donnee_k4.append(Point4)
-            donnee_k5.append(Point5)
+            donnee_k1.append(donnee_nv[1][k])
+            donnee_k2.append(donnee_nv[2][w])
+            donnee_k3.append(donnee_nv[3][x])
+            donnee_k4.append(donnee_nv[4][y])
+            donnee_k5.append(donnee_nv[5][z])
 
 
         d='capteur'+str(List1[0])
@@ -1122,11 +983,7 @@ def heure_nouveau(List1,a):
         plt.show()
 
 
-def interpolation(m,k,Lnv,Lbs,donnee_nv,seconds_nv):
 
-    Point=donnee_nv[Lnv][m]
-
-    return(Point)
 
 
 
