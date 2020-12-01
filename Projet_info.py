@@ -1032,18 +1032,18 @@ def heure_nouveau(List1,a):
         plt.show()
 
 
-    def moyenne_heure_nouveau(List_de_point,nb_de_capteurs):
-        if nb_de_capteurs==2:
-            Point=(List_de_point[0]+List_de_point[1])/nb_de_capteurs
-        elif nb_de_capteurs==3:
-            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2])/nb_de_capteurs
-        elif nb_de_capteurs==4:
-            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3])/nb_de_capteurs
-        elif nb_de_capteurs==5:
-            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4])/nb_de_capteurs
-        elif nb_de_capteurs==6:
-            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4]+List_de_point[5])/nb_de_capteurs
-
+def moyenne_heure_nv(List_de_point,nb_de_capteurs):
+    if nb_de_capteurs==2:
+        Point=(List_de_point[0]+List_de_point[1])/nb_de_capteurs
+    elif nb_de_capteurs==3:
+        Point=(List_de_point[0]+List_de_point[1]+List_de_point[2])/nb_de_capteurs
+    elif nb_de_capteurs==4:
+        Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3])/nb_de_capteurs
+    elif nb_de_capteurs==5:
+        Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4])/nb_de_capteurs
+    elif nb_de_capteurs==6:
+        Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4]+List_de_point[5])/nb_de_capteurs
+    return(Point)
 
 
 ##
