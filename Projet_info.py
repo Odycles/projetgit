@@ -626,12 +626,11 @@ def heure_nouveau(List1,a):
         donnee_nv.append(donnee_index)
         seconds_nv.append(seconds_index)
 
-    for i in range (6):
-        sent_at[i]=def_time(sent_at[i])
 
     if len(List)==1:
 
         d='capteur'+str(List1[0])
+        sent_at_nv[0]=def_time(sent_at_nv[0])
         plt.figure()
         plt.plot(sent_at_nv[0],donnee_nv[0],label=d)
         plt.legend()
@@ -666,7 +665,9 @@ def heure_nouveau(List1,a):
         d=str(d)
         e='capteur'+str(List1[1])
         e=str(e)
-
+        
+        nouvelle_heure=def_time(nouvelle_heure)
+        
         plt.figure()
         plt.plot(nouvelle_heure,donnee_k0,label=d)
         plt.plot(nouvelle_heure,donnee_k1,label=e)
@@ -732,7 +733,8 @@ def heure_nouveau(List1,a):
         e=str(e)
         f='capteur'+str(List1[2])
         f=str(f)
-
+        
+        nouvelle_heure=def_time(nouvelle_heure)
 
         plt.figure()
         plt.plot(nouvelle_heure,donnee_k0,label=d)
@@ -820,7 +822,8 @@ def heure_nouveau(List1,a):
        f=str(f)
        g='capteur'+str(List1[3])
        g=str(g)
-
+        
+       nouvelle_heure=def_time(nouvelle_heure)
 
        plt.figure()
        plt.plot(nouvelle_heure,donnee_k0,label=d)
@@ -941,7 +944,7 @@ def heure_nouveau(List1,a):
         h='capteur'+str(List1[4])
         h=str(h)
 
-
+        nouvelle_heure=def_time(nouvelle_heure)
 
         plt.figure()
         plt.plot(nouvelle_heure,donnee_k0,label=d)
@@ -1103,7 +1106,7 @@ def heure_nouveau(List1,a):
         j='capteur'+str(List1[5])
         j=str(j)
 
-
+        nouvelle_heure=def_time(nouvelle_heure)
 
 
         plt.figure()
