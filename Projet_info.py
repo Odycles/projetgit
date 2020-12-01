@@ -603,7 +603,7 @@ def heure_nouveau(List1,a):
 
     sent_at_nv,donnee_nv,nouvelle_heure,seconds_nv=[],[],[],[]
     k,w,x,y,z=0,0,0,0,0
-    donnee_k0,donnee_k1,donnee_k2,donnee_k3,donnee_k4,donnee_k5=[],[],[],[],[],[]
+    donnee_k0,donnee_k1,donnee_k2,donnee_k3,donnee_k4,donnee_k5,donnee_m=[],[],[],[],[],[],[]
 
     assert len(List)<7,"Il est demandé plus de courbe qu'il n'en existe"
     for index in range(len(List)) :
@@ -650,17 +650,20 @@ def heure_nouveau(List1,a):
             while seconds_nv[0][i]>=seconds_nv[1][k] and k<(len(sent_at_nv[1])-2):
 
                 nouvelle_heure.append(sent_at_nv[1][k])
+                Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k]],2)
 
                 donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
+                donnee_m.append(Point)
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
-
+            Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k]],2)
 
             donnee_k1.append(donnee_nv[1][k])
-            donnee_k0.append()
+            donnee_k0.append(donnee_nv[1][k])
+            donnee_m.append(Point)
 
         d='capteur'+str(List1[0])
         d=str(d)
@@ -672,6 +675,7 @@ def heure_nouveau(List1,a):
         plt.figure()
         plt.plot(nouvelle_heure,donnee_k0,label=d)
         plt.plot(nouvelle_heure,donnee_k1,label=e)
+        plt.plot(nouvelle_heure,donnee_m,label='moyenne capteurs')
         plt.legend()
         plt.ylabel(a)
         plt.xlabel('date')
@@ -686,26 +690,32 @@ def heure_nouveau(List1,a):
                 while seconds_nv[1][k]>=seconds_nv[2][w] and w<(len(sent_at_nv[2])-1):
 
                     nouvelle_heure.append(sent_at_nv[2][w])
+                    Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w]],3)
                     
                     donnee_k0.append(donnee_nv[0][i])
                     donnee_k1.append(donnee_nv[1][k])
                     donnee_k2.append(donnee_nv[2][w])
+                    donnee_m.append(Point)
 
                     w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
-
+                Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w]],3)
+                    
                 donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
                 donnee_k2.append(donnee_nv[2][w])
+                donnee_m.append(Point)
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
-
+            Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w]],3)
+                    
             donnee_k0.append(donnee_nv[0][i])
             donnee_k1.append(donnee_nv[1][k])
             donnee_k2.append(donnee_nv[2][w])
+            donnee_m.append(Point)
 
 
         for i in range(len(seconds_nv)-1):
@@ -729,6 +739,7 @@ def heure_nouveau(List1,a):
         plt.plot(nouvelle_heure,donnee_k0,label=d)
         plt.plot(nouvelle_heure,donnee_k1,label=e)
         plt.plot(nouvelle_heure,donnee_k2,label=f)
+        plt.plot(nouvelle_heure,donnee_m,label='moyenne capteurs')
         plt.legend()
         plt.ylabel(a)
         plt.xlabel('date')
@@ -744,38 +755,46 @@ def heure_nouveau(List1,a):
                    while seconds_nv[2][w]>=seconds_nv[3][x] and x<(len(sent_at_nv[3])-1):
 
                        nouvelle_heure.append(sent_at_nv[3][x])
+                       Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x]],4)
                     
                        donnee_k0.append(donnee_nv[0][i])
                        donnee_k1.append(donnee_nv[1][k])
                        donnee_k2.append(donnee_nv[2][w])
                        donnee_k3.append(donnee_nv[3][x])
+                       donnee_m.append(Point)
 
                        x+=1
 
                    nouvelle_heure.append(sent_at_nv[2][w])
+                   Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x]],4)
                 
                    donnee_k0.append(donnee_nv[0][i])
                    donnee_k1.append(donnee_nv[1][k])
                    donnee_k2.append(donnee_nv[2][w])
                    donnee_k3.append(donnee_nv[3][x])
+                   donnee_m.append(Point)
 
                    w+=1
 
                nouvelle_heure.append(sent_at_nv[1][k])
+               Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x]],4)
 
                donnee_k0.append(donnee_nv[0][i])
                donnee_k1.append(donnee_nv[1][k])
                donnee_k2.append(donnee_nv[2][w])
                donnee_k3.append(donnee_nv[3][x])
+               donnee_m.append(Point)
 
                k+=1
 
            nouvelle_heure.append(sent_at_nv[0][i])
+           Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x]],4)
         
            donnee_k0.append(donnee_nv[0][i])
            donnee_k1.append(donnee_nv[1][k])
            donnee_k2.append(donnee_nv[2][w])
            donnee_k3.append(donnee_nv[3][x])
+           donnee_m.append(Point)
 
 
 
@@ -795,6 +814,7 @@ def heure_nouveau(List1,a):
        plt.plot(nouvelle_heure,donnee_k1,label=e)
        plt.plot(nouvelle_heure,donnee_k2,label=f)
        plt.plot(nouvelle_heure,donnee_k3,label=g)
+       plt.plot(nouvelle_heure,donnee_m,label='moyenne capteurs')
        plt.legend()
        plt.ylabel(a)
        plt.xlabel('date')
@@ -810,52 +830,62 @@ def heure_nouveau(List1,a):
                          while seconds_nv[3][x]>=seconds_nv[4][y] and y<(len(sent_at_nv[4])-1):
 
                              nouvelle_heure.append(sent_at_nv[4][y])
+                             Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y]],5)
                              
                              donnee_k0.append(donnee_nv[0][i])
                              donnee_k1.append(donnee_nv[1][k])
                              donnee_k2.append(donnee_nv[2][w])
                              donnee_k3.append(donnee_nv[3][x])
                              donnee_k4.append(donnee_nv[4][y])
+                             donnee_m.append(Point)
 
                              y+=1
 
                          nouvelle_heure.append(sent_at_nv[3][x])
+                         Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y]],5)
                          
                          donnee_k0.append(donnee_nv[0][i])
                          donnee_k1.append(donnee_nv[1][k])
                          donnee_k2.append(donnee_nv[2][w])
                          donnee_k3.append(donnee_nv[3][x])
                          donnee_k4.append(donnee_nv[4][y])
+                         donnee_m.append(Point)
 
                          x+=1
 
                      nouvelle_heure.append(sent_at_nv[2][w])
+                     Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y]],5)
 
                      donnee_k0.append(donnee_nv[0][i])
                      donnee_k1.append(donnee_nv[1][k])
                      donnee_k2.append(donnee_nv[2][w])
                      donnee_k3.append(donnee_nv[3][x])
                      donnee_k4.append(donnee_nv[4][y])
+                     donnee_m.append(Point)
 
                      w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
+                Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y]],5)
 
                 donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
                 donnee_k2.append(donnee_nv[2][w])
                 donnee_k3.append(donnee_nv[3][x])
                 donnee_k4.append(donnee_nv[4][y])
+                donnee_m.append(Point)
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
+            Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y]],5)
 
             donnee_k0.append(donnee_nv[0][i])
             donnee_k1.append(donnee_nv[1][k])
             donnee_k2.append(donnee_nv[2][w])
             donnee_k3.append(donnee_nv[3][x])
             donnee_k4.append(donnee_nv[4][y])
+            donnee_m.append(Point)
 
 
         d='capteur'+str(List1[0])
@@ -877,6 +907,7 @@ def heure_nouveau(List1,a):
         plt.plot(nouvelle_heure,donnee_k2,label=f)
         plt.plot(nouvelle_heure,donnee_k3,label=g)
         plt.plot(nouvelle_heure,donnee_k4,label=h)
+        plt.plot(nouvelle_heure,donnee_m,label='moyenne capteurs')
         plt.legend()
         plt.ylabel(a)
         plt.xlabel('date')
@@ -894,6 +925,7 @@ def heure_nouveau(List1,a):
                              while seconds_nv[4][y]>=seconds_nv[5][z] and z<(len(sent_at_nv[5])-1):
 
                                  nouvelle_heure.append(sent_at_nv[5][z])
+                                 Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
                                  donnee_k0.append(donnee_nv[0][i])
                                  donnee_k1.append(donnee_nv[1][k])
@@ -901,10 +933,12 @@ def heure_nouveau(List1,a):
                                  donnee_k3.append(donnee_nv[3][x])
                                  donnee_k4.append(donnee_nv[4][y])
                                  donnee_k5.append(donnee_nv[5][z])
+                                 donnee_m.append(Point)
 
                                  z+=1
 
                              nouvelle_heure.append(sent_at_nv[4][y])
+                             Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
                              donnee_k0.append(donnee_nv[0][i])
                              donnee_k1.append(donnee_nv[1][k])
@@ -912,10 +946,12 @@ def heure_nouveau(List1,a):
                              donnee_k3.append(donnee_nv[3][x])
                              donnee_k4.append(donnee_nv[4][y])
                              donnee_k5.append(donnee_nv[5][z])
+                             donnee_m.append(Point)
 
                              y+=1
 
                          nouvelle_heure.append(sent_at_nv[3][x])
+                         Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
                          donnee_k0.append(donnee_nv[0][i])
                          donnee_k1.append(donnee_nv[1][k])
@@ -923,10 +959,12 @@ def heure_nouveau(List1,a):
                          donnee_k3.append(donnee_nv[3][x])
                          donnee_k4.append(donnee_nv[4][y])
                          donnee_k5.append(donnee_nv[5][z])
+                         donnee_m.append(Point)
 
                          x+=1
 
                      nouvelle_heure.append(sent_at_nv[2][w])
+                     Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
                      donnee_k0.append(donnee_nv[0][i])
                      donnee_k1.append(donnee_nv[1][k])
@@ -934,10 +972,12 @@ def heure_nouveau(List1,a):
                      donnee_k3.append(donnee_nv[3][x])
                      donnee_k4.append(donnee_nv[4][y])
                      donnee_k5.append(donnee_nv[5][z])
+                     donnee_m.append(Point)
 
                      w+=1
 
                 nouvelle_heure.append(sent_at_nv[1][k])
+                Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
                 donnee_k0.append(donnee_nv[0][i])
                 donnee_k1.append(donnee_nv[1][k])
@@ -945,10 +985,12 @@ def heure_nouveau(List1,a):
                 donnee_k3.append(donnee_nv[3][x])
                 donnee_k4.append(donnee_nv[4][y])
                 donnee_k5.append(donnee_nv[5][z])
+                donnee_m.append(Point)
 
                 k+=1
 
             nouvelle_heure.append(sent_at_nv[0][i])
+            Point=moyenne_heure_nv([donnee_nv[0][i],donnee_nv[1][k],donnee_nv[2][w],donnee_nv[3][x],donnee_nv[4][y],donnee_nv[5][z]],6)
 
             donnee_k0.append(donnee_nv[0][i])
             donnee_k1.append(donnee_nv[1][k])
@@ -956,6 +998,7 @@ def heure_nouveau(List1,a):
             donnee_k3.append(donnee_nv[3][x])
             donnee_k4.append(donnee_nv[4][y])
             donnee_k5.append(donnee_nv[5][z])
+            donnee_m.append(Point)
 
 
         d='capteur'+str(List1[0])
@@ -970,6 +1013,7 @@ def heure_nouveau(List1,a):
         h=str(h)
         j='capteur'+str(List1[5])
         j=str(j)
+        
 
         nouvelle_heure=def_time(nouvelle_heure)
 
@@ -981,13 +1025,24 @@ def heure_nouveau(List1,a):
         plt.plot(nouvelle_heure,donnee_k3,label=g)
         plt.plot(nouvelle_heure,donnee_k4,label=h)
         plt.plot(nouvelle_heure,donnee_k5,label=j)
+        plt.plot(nouvelle_heure,donnee_m,label='moyenne capteurs')
         plt.legend()
         plt.ylabel(a)
         plt.xlabel('date')
         plt.show()
 
 
-
+    def moyenne_heure_nouveau(List_de_point,nb_de_capteurs):
+        if nb_de_capteurs==2:
+            Point=(List_de_point[0]+List_de_point[1])/nb_de_capteurs
+        elif nb_de_capteurs==3:
+            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2])/nb_de_capteurs
+        elif nb_de_capteurs==4:
+            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3])/nb_de_capteurs
+        elif nb_de_capteurs==5:
+            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4])/nb_de_capteurs
+        elif nb_de_capteurs==6:
+            Point=(List_de_point[0]+List_de_point[1]+List_de_point[2]+List_de_point[3]+List_de_point[4]+List_de_point[5])/nb_de_capteurs
 
 
 
