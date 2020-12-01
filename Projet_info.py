@@ -587,7 +587,9 @@ def heure_nouveau(List1,a):
         c = 3
     elif a == "co2":
         c = 4
-    else : print("Le nom de la variable que vous avez entrez n'existe pas")
+    else : 
+        print("Le nom de la variable que vous avez entrez n'existe pas")
+        break
 
     List=[]
 
