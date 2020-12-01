@@ -1055,7 +1055,7 @@ choix = input()
 if choix == "1" :
     print("Choisissez une donnée à tracer : temp, humidity, co2, noise, lum, humidex")
     choix_donnee = input()
-    print("Choisissez un capteur : 1, 2, 3, 4, 5")
+    print("Choisissez un capteur : 1, 2, 3, 4, 5, 6")
     choix_num = int(input())
     print("Choisissez une date de début sous la forme YYYY-MM-DD entre le 2019-08-11 et le 2019-08-25")
     date_debut = str(input())
