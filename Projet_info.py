@@ -517,7 +517,8 @@ def detect_anomalie(num_capteur,donnee):
     elif donnee == "co2":
         num_donnee = 4
 
-
+    for i in range (6):
+        sent_at[i]=def_time(sent_at[i])
 
     for terme in liste_capteur :
             tps.append(terme[5])
