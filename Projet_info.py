@@ -1048,7 +1048,7 @@ def moyenne_heure_nv(List_de_point,nb_de_capteurs):
 
 
 print ("Bonjour")
-print ("Vous pouvez soit : \n 1. Tracer une courbe entre deux dates \n 2. Detecter les anomalies \n 3. Visualiser la corrélation entre deux variables \n 4. Visualiser la corrélation entre plusieurs capteurs \n 5. Afficher toutes les veleurs remarquables de la base de donnée")
+print ("Vous pouvez soit : \n 1. Tracer une courbe entre deux dates \n 2. Detecter les anomalies \n 3. Visualiser le capteur de corrélation entre deux variables \n 4. Visualiser la corrélation entre plusieurs capteurs \n 5. Afficher toutes les veleurs remarquables de la base de donnée")
 print ("Donnez le numéro de votre choix")
 choix = input()
 
