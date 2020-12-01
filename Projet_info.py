@@ -591,7 +591,11 @@ def heure_nouveau(List1,a):
 
     List=[]
 
-
+    
+    for i in range (len(List1)):
+        if List1[i]==5: 
+            if i!=0 : 
+                List1[0],List1[i]=List1[i],List1[0]
 
     for i in List1:
         List.append(i-1)
@@ -607,10 +611,6 @@ def heure_nouveau(List1,a):
         for j in range (index):
             assert List[j]!=List[index], "il est demandé deux fois le même capteur"
 
-    for i in range (len(List)):
-        if List[i]==5: 
-            if i!=0: 
-                List[0],List[i]=List[i],List[0]
                 
     for index in List:
 
@@ -1050,7 +1050,7 @@ if choix=="4":
         print("Choisissez les numéros des capteurs à corréler")
         List1=[int(input()),int(input()),int(input()),int(input()),int(input())]
     elif nombre_capteur==6:
-        List1=[1,2,3,4,5,6]
+        List1=[5,1,2,3,4,6]
 
     heure_nouveau(List1,choix_variable)
 
