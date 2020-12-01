@@ -607,7 +607,11 @@ def heure_nouveau(List1,a):
         for j in range (index):
             assert List[j]!=List[index], "il est demandé deux fois le même capteur"
 
-
+    for i in range (len(List)):
+        if List[i]==5: 
+            if i!=0: 
+                List[0],List[i]=List[i],List[0]
+                
     for index in List:
 
         sent_at_index,donnee_index,seconds_index=[],[],[]
