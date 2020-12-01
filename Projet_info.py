@@ -1046,7 +1046,6 @@ def moyenne_heure_nv(List_de_point,nb_de_capteurs):
     return(Point)
 
 
-##
 
 print ("Bonjour")
 print ("Vous pouvez soit : \n 1. Tracer une courbe entre deux dates \n 2. Detecter les anomalies \n 3. Visualiser la corrélation entre deux variables \n 4. Visualiser la corrélation entre plusieurs capteurs \n 5. Afficher toutes les veleurs remarquables de la base de donnée")
@@ -1066,7 +1065,7 @@ if choix == "1" :
 
 if choix == "2" :
     print("Les anomalies détectées vont être tracées en rouge")
-    print("Choisissez un capteur a diagnostiquer : 1, 2, 3, 4, 5")
+    print("Choisissez un capteur a diagnostiquer : 1, 2, 3, 4, 5, 6")
     choix_num = int(input())
     print("Choisissez une donnée à tracer : temp, humidity, co2, noise, lum")
     choix_donnee = input()
@@ -1083,9 +1082,9 @@ if choix == "3" :
 
 
 if choix=="4":
-    print("Choisissez une variable sur laquelle visualiser la corrélation")
+    print("Choisissez une variable sur laquelle visualiser la corrélation:temp, humidity, co2, noise, lum")
     choix_variable = input()
-    print("Choisissez le nombre de capteur à correler")
+    print("Choisissez le nombre de capteur à correler: de 1 à 6")
     nombre_capteur = int(input())
     assert nombre_capteur<7, "Vous demandez de correler plus de capteurs qu'il n'en existe"
     assert nombre_capteur>0, "Vous demandez un nombre de capteurs à corréler nul ou négatif"
@@ -1113,4 +1112,4 @@ if choix == "5" :
     all_stats()
 
 
-##
+
